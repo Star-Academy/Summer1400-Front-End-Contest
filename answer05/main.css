@@ -1,0 +1,136 @@
+:root {
+  --color-body: #1fcc4a;
+  --color-light: #fafafa;
+  --color-dark: #1a1a1a;
+  --color-light--red: tomato;
+  --color-light--yellow: yellow;
+  --color-light--green: var(--color-body);
+  --size-street: 250px;
+  --size-lane: 10px;
+  --size-light: 15px;
+  --gap-screen: 5px;
+  --font-size-counter: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Samim", sans-serif;
+}
+
+body {
+  background: var(--color-body);
+}
+body .container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  width: 100vw;
+  height: 100vh;
+}
+body .container .street {
+  background: var(--color-dark);
+  position: relative;
+}
+body .container .street::after {
+  content: "";
+  background-size: 50px 50px;
+  position: absolute;
+}
+body .container .street--horizontal {
+  height: var(--size-street);
+}
+body .container .street--horizontal::after {
+  background-image: linear-gradient(to right, var(--color-light) 0%, var(--color-light) 50%, transparent 50%);
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  height: var(--size-lane);
+}
+body .container .street--horizontal.reverse::after {
+  transform: translateY(-50%) scaleX(-1);
+}
+body .container .street--vertical {
+  width: var(--size-street);
+}
+body .container .street--vertical::after {
+  background-image: linear-gradient(to bottom, var(--color-light) 0%, var(--color-light) 50%, transparent 50%);
+  top: 0;
+  left: 50%;
+  bottom: 0;
+  width: var(--size-lane);
+  transform: translateX(-50%);
+}
+body .container .street--vertical.reverse::after {
+  transform: translateX(-50%) scaleY(-1);
+}
+body .container .street--center {
+  position: relative;
+}
+body .container .street--center .screen {
+  position: absolute;
+  display: grid;
+  gap: var(--gap-screen);
+}
+body .container .street--center .screen .light {
+  display: block;
+  width: var(--size-light);
+  height: var(--size-light);
+  border-radius: 999px;
+}
+body .container .street--center .screen .light--red {
+  grid-area: red;
+  background: var(--color-light--red);
+}
+body .container .street--center .screen .light--yellow {
+  grid-area: yellow;
+  background: var(--color-light--yellow);
+}
+body .container .street--center .screen .light--green {
+  grid-area: green;
+  background: var(--color-light--green);
+}
+body .container .street--center .screen .counter {
+  grid-area: counter;
+  color: var(--color-light);
+  display: grid;
+  place-items: center;
+  font-size: var(--font-size-counter);
+  line-height: 1em;
+  text-align: center;
+}
+body .container .street--center .screen--top, body .container .street--center .screen--bottom {
+  left: 50%;
+  transform: translateX(-50%);
+}
+body .container .street--center .screen--left, body .container .street--center .screen--right {
+  top: 50%;
+  transform: translateY(-50%);
+}
+body .container .street--center .screen--top {
+  top: 0;
+  margin-top: var(--gap-screen);
+  grid-template-areas: "red yellow green" "counter counter counter";
+}
+body .container .street--center .screen--left {
+  left: 0;
+  margin-left: var(--gap-screen);
+  grid-template-areas: "red counter" "yellow counter" "green counter";
+}
+body .container .street--center .screen--right {
+  right: 0;
+  margin-right: var(--gap-screen);
+  grid-template-areas: "counter red" "counter yellow" "counter green";
+}
+body .container .street--center .screen--bottom {
+  bottom: 0;
+  margin-bottom: var(--gap-screen);
+  grid-template-areas: "counter counter counter" "red yellow green";
+}
+body .container .street--center .screen--bottom .counter {
+  margin-bottom: -0.2em;
+}
+
+/*# sourceMappingURL=main.css.map */
