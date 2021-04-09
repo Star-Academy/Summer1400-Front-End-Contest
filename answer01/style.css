@@ -1,0 +1,15 @@
+body {
+  background-image: linear-gradient(to bottom right, #f3440e, #f02e08);
+
+  display: grid;
+  place-items: center;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
