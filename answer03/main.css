@@ -20,8 +20,7 @@ body {
 
 body .container {
   background-image: url('./star-logo.png');
-  background-size: cover;
-  color: red;
+  background-size: cover; 
   position: relative;
   display: grid;
   place-items: center;
