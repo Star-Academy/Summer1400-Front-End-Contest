@@ -1,3 +1,8 @@
+@font-face {
+  font-family: shabnam-bold;
+  src: url('./shabnam-bold.ttf');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,23 +17,30 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
 body .container {
+  background-image: url('./star-logo.png');
+  background-size: cover;
+  color: red;
   position: relative;
   display: grid;
   place-items: center;
   width: 500px;
   height: 500px;
 }
+
 body .container .logo {
   position: absolute;
   top: 170px;
 }
+
 body .container .logo .tag {
   position: absolute;
   padding-left: 30px;
-  font-family: "Shabnam", sans-serif;
+  /* color: red; */
+  font-family: "shabnam-bold", sans-serif;
   font-size: 108px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -7px;
   transform-origin: left;
 }
