@@ -41,7 +41,8 @@ class SimpleTest(unittest.TestCase):
         cls.driver.implicitly_wait(1)
         cls.driver.get('http://127.0.0.1:' + PORT + '/index.html')
 
-    def test_center(self):
+    def test_1200(self):
+        self.driver.set_window_size(1250,1000)
         container = self.driver.find_element_by_tag_name('body')
         box = self.driver.find_element_by_id('logo')
         self.assertEqual(
