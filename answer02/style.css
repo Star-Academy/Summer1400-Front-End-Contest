@@ -1,0 +1,89 @@
+@font-face {
+  font-family: "Samim";
+  src: url("./samim.ttf");
+}
+
+* {
+  color: #fafafa;
+
+  font-family: "Samim", sans-serif;
+}
+
+body {
+  padding: 20px;
+  direction: rtl;
+  background-color: #fafafa;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product {
+  background: #1a1a1a;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+
+  padding: 10px;
+
+  border-radius: 10px;
+}
+
+img {
+  grid-area: image;
+
+  max-width: 100%;
+  width: 100px;
+}
+
+h2 {
+  grid-area: title;
+
+  margin: 20px 0;
+
+  font-size: 18px;
+  line-height: 1.5em;
+  text-align: center;
+}
+
+a {
+  grid-area: button;
+
+  background: #f02e08;
+
+  min-width: 100px;
+
+  margin-top: auto;
+  padding: 5px 15px;
+
+  border-radius: 1em;
+
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 850px) {
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .products {
+    grid-template-columns: 1fr;
+  }
+}
