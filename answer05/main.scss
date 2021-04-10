@@ -303,26 +303,28 @@ body {
             
             position: relative;
             
-            &--top-left {
-                clip-path: polygon(0% 0%, 100% 0%, 100% var(--size-ramp--long), var(--size-ramp--long) 100%, 0% 100%);
-            }
-            
-            &--top-right {
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, var(--size-ramp--short) 100%, 0% var(--size-ramp--long));
-            }
-            
-            &--bottom-right {
-                clip-path: polygon(var(--size-ramp--short) 0%, 100% 0%, 100% 100%, 0% 100%, 0% var(--size-ramp--short));
-            }
-            
-            &--bottom-left {
-                clip-path: polygon(0% 0%, var(--size-ramp--long) 0%, 100% var(--size-ramp--short), 100% 100%, 0% 100%);
-            }
+            //&--top-left {
+            //    clip-path: polygon(0% 0%, 100% 0%, 100% var(--size-ramp--long), var(--size-ramp--long) 100%, 0% 100%);
+            //}
+            //
+            //&--top-right {
+            //    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, var(--size-ramp--short) 100%, 0% var(--size-ramp--long));
+            //}
+            //
+            //&--bottom-right {
+            //    clip-path: polygon(var(--size-ramp--short) 0%, 100% 0%, 100% 100%, 0% 100%, 0% var(--size-ramp--short));
+            //}
+            //
+            //&--bottom-left {
+            //    clip-path: polygon(0% 0%, var(--size-ramp--long) 0%, 100% var(--size-ramp--short), 100% 100%, 0% 100%);
+            //}
         }
     }
     
     .cars {
         //pointer-events: none;
+        
+        overflow: hidden;
         
         .car {
             background: var(--color-car--default);
@@ -404,18 +406,44 @@ body {
             }
             
             &--top {
+                left: calc(50% - var(--offset-car));
+                top: 0;
+                
+                transform: translateX(-50%) rotate(180deg);
+                
+                animation: move-to-bottom 1s forwards ease-in-out;
+            }
+            
+            &--right {
+                top: calc(50% - var(--offset-car));
+                right: 0;
+                
+                transform: translateY(-50%) rotate(270deg);
+            }
+            
+            &--bottom {
                 left: calc(50% + var(--offset-car));
                 bottom: 0;
                 
                 transform: translateX(-50%);
             }
             
-            &--bottom {
-                left: calc(50% - var(--offset-car));
-                top: 0;
+            &--left {
+                top: calc(50% + var(--offset-car));
+                left: 0;
                 
-                transform: translateX(-50%) rotate(180deg);
+                transform: translateY(-50%) rotate(90deg);
             }
         }
+    }
+}
+
+@keyframes move-to-bottom {
+    from {
+        top: 0;
+    }
+    
+    to {
+        top: calc(50% - calc(calc(var(--offset-car) * 2) + var(--size-car--long)));
     }
 }

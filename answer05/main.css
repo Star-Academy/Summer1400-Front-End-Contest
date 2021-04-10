@@ -214,17 +214,8 @@ body .container .empty {
   background: var(--color-primary);
   position: relative;
 }
-body .container .empty--top-left {
-  clip-path: polygon(0% 0%, 100% 0%, 100% var(--size-ramp--long), var(--size-ramp--long) 100%, 0% 100%);
-}
-body .container .empty--top-right {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, var(--size-ramp--short) 100%, 0% var(--size-ramp--long));
-}
-body .container .empty--bottom-right {
-  clip-path: polygon(var(--size-ramp--short) 0%, 100% 0%, 100% 100%, 0% 100%, 0% var(--size-ramp--short));
-}
-body .container .empty--bottom-left {
-  clip-path: polygon(0% 0%, var(--size-ramp--long) 0%, 100% var(--size-ramp--short), 100% 100%, 0% 100%);
+body .cars {
+  overflow: hidden;
 }
 body .cars .car {
   background: var(--color-car--default);
@@ -285,14 +276,34 @@ body .cars .car--blue {
   background: var(--color-car--blue);
 }
 body .cars .car--top {
+  left: calc(50% - var(--offset-car));
+  top: 0;
+  transform: translateX(-50%) rotate(180deg);
+  animation: move-to-bottom 1s forwards ease-in-out;
+}
+body .cars .car--right {
+  top: calc(50% - var(--offset-car));
+  right: 0;
+  transform: translateY(-50%) rotate(270deg);
+}
+body .cars .car--bottom {
   left: calc(50% + var(--offset-car));
   bottom: 0;
   transform: translateX(-50%);
 }
-body .cars .car--bottom {
-  left: calc(50% - var(--offset-car));
-  top: 0;
-  transform: translateX(-50%) rotate(180deg);
+body .cars .car--left {
+  top: calc(50% + var(--offset-car));
+  left: 0;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+@keyframes move-to-bottom {
+  from {
+    top: 0;
+  }
+  to {
+    top: calc(50% - calc(calc(var(--offset-car) * 2) + var(--size-car--long)));
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
