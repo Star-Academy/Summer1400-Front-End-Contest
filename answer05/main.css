@@ -8,7 +8,7 @@
   --color-yellow: #ffff00;
   --color-yellow--dark: #cccc00;
   --color-green: #1fcc4a;
-  --color-green--dark: #1fcc4a;
+  --color-green--dark: #009900;
   --color-blue: #1f92cc;
   --color-blue--dark: #176e99;
   --color-purple: #5f29cc;
@@ -127,6 +127,7 @@ body .container .street--center .screen .light {
   width: var(--size-light);
   height: var(--size-light);
   border-radius: 999px;
+  transition: background-color 0.1s ease-in-out;
 }
 body .container .street--center .screen .light.off {
   opacity: 0.5;
@@ -216,6 +217,7 @@ body .container .empty {
 }
 body .cars {
   overflow: hidden;
+  pointer-events: none;
 }
 body .cars .car {
   background: var(--color-car--default);
@@ -278,32 +280,24 @@ body .cars .car--blue {
 body .cars .car--top {
   left: calc(50% - var(--offset-car));
   top: 0;
-  transform: translateX(-50%) rotate(180deg);
-  animation: move-to-bottom 1s forwards ease-in-out;
+  transform: translate(-50%, -100%) rotate(180deg);
 }
 body .cars .car--right {
   top: calc(50% - var(--offset-car));
   right: 0;
-  transform: translateY(-50%) rotate(270deg);
+  transform-origin: left;
+  transform: translate(200%, -25%) rotate(270deg);
 }
 body .cars .car--bottom {
   left: calc(50% + var(--offset-car));
   bottom: 0;
-  transform: translateX(-50%);
+  transform: translate(-50%, 100%);
 }
 body .cars .car--left {
   top: calc(50% + var(--offset-car));
   left: 0;
-  transform: translateY(-50%) rotate(90deg);
-}
-
-@keyframes move-to-bottom {
-  from {
-    top: 0;
-  }
-  to {
-    top: calc(50% - calc(calc(var(--offset-car) * 2) + var(--size-car--long)));
-  }
+  transform-origin: right;
+  transform: translate(-200%, -25%) rotate(90deg);
 }
 
 /*# sourceMappingURL=main.css.map */
