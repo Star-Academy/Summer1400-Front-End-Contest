@@ -8,11 +8,25 @@
     margin-#{$direction}: var(--gap-screen);
 }
 
+@function _car-color($around, $center) {
+    @return linear-gradient(to bottom, $around 0, $around 30%, $center 30%, $center 70%, $around 70%);
+}
+
 :root {
-    --color-red: tomato;
-    --color-yellow: yellow;
+    --color-white: #fafafa;
+    --color-white--dark: #cccccc;
+    --color-red: #ff6647;
+    --color-red--dark: #cc3939;
+    --color-orange: #f3440e;
+    --color-orange--dark: #f02e08;
+    --color-yellow: #ffff00;
+    --color-yellow--dark: #cccc00;
     --color-green: #1fcc4a;
+    --color-green--dark: #1fcc4a;
     --color-blue: #1f92cc;
+    --color-blue--dark: #176e99;
+    --color-purple: #5f29cc;
+    --color-purple--dark: #4400cc;
     
     --color-primary: var(--color-green);
     --color-light: #fafafa;
@@ -23,25 +37,37 @@
     --color-light--yellow: var(--color-yellow);
     --color-light--green: var(--color-green);
     
-    --color-car--red: var(--color-red);
-    --color-car--yellow: var(--color-yellow);
-    --color-car--green: var(--color-green);
-    --color-car--blue: var(--color-blue);
+    --color-car--red: #{_car-color(var(--color-red), var(--color-red--dark))};
+    --color-car--green: #{_car-color(var(--color-green), var(--color-green--dark))};
+    --color-car--blue: #{_car-color(var(--color-blue), var(--color-blue--dark))};
+    --color-car--purple: #{_car-color(var(--color-purple--dark), var(--color-purple))};
+    --color-car--default: var(--color-car--blue);
     
     --color-wheel: var(--color-gray);
     
-    --size-street: 250px;
+    --color-light-front: var(--color-light);
+    --color-light-rear: var(--color-red--dark);
+    
+    --offset-car: 60px;
+    
+    --size-street: calc(var(--offset-car) * 4);
+    --size-ramp--short: 10%;
+    --size-ramp--long: calc(100% - var(--size-ramp--short));
     --size-lane: 10px;
     --size-light: 15px;
+    
     --size-start-button: 50px;
     
     --size-car--long: 40px;
     --size-car--short: 25px;
     --size-wheel--long: 12px;
     --size-wheel--short: 4px;
+    --size-light--long: 6px;
+    --size-light--short: 4px;
     
     --gap-screen: 5px;
     --gap-start-button: 10px;
+    --gap-car-light: 2px;
     
     --font-size-counter: 24px;
     --font-size-start-button: 18px;
@@ -57,7 +83,7 @@
 }
 
 body {
-    background: var(--color-primary);
+    background: var(--color-dark);
     
     position: relative;
     
@@ -85,6 +111,7 @@ body {
             background: var(--color-dark);
             
             position: relative;
+            overflow: hidden;
             
             &::after {
                 content: "";
@@ -270,26 +297,50 @@ body {
                 }
             }
         }
-    }
-    
-    .cars {
-        .car {
-            background: var(--color-car--blue);
+        
+        .empty {
+            background: var(--color-primary);
             
             position: relative;
             
-            top: 50px;
-            left: 50px;
+            &--top-left {
+                clip-path: polygon(0% 0%, 100% 0%, 100% var(--size-ramp--long), var(--size-ramp--long) 100%, 0% 100%);
+            }
+            
+            &--top-right {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, var(--size-ramp--short) 100%, 0% var(--size-ramp--long));
+            }
+            
+            &--bottom-right {
+                clip-path: polygon(var(--size-ramp--short) 0%, 100% 0%, 100% 100%, 0% 100%, 0% var(--size-ramp--short));
+            }
+            
+            &--bottom-left {
+                clip-path: polygon(0% 0%, var(--size-ramp--long) 0%, 100% var(--size-ramp--short), 100% 100%, 0% 100%);
+            }
+        }
+    }
+    
+    .cars {
+        //pointer-events: none;
+        
+        .car {
+            background: var(--color-car--default);
+            
+            position: absolute;
             
             width: var(--size-car--short);
             height: var(--size-car--long);
             
-            .wheel {
-                background: var(--color-wheel);
-                
+            .wheel,
+            .light {
                 position: absolute;
                 
                 display: block;
+            }
+            
+            .wheel {
+                background: var(--color-wheel);
                 
                 width: var(--size-wheel--short);
                 height: var(--size-wheel--long);
@@ -311,8 +362,59 @@ body {
                 }
             }
             
-            .top {
+            .light {
+                width: var(--size-light--long);
+                height: var(--size-light--short);
+                
+                &--top {
+                    background: var(--color-light-front);
+                    
+                    top: var(--gap-car-light);
+                }
+                
+                &--right {
+                    right: var(--gap-car-light);
+                }
+                
+                &--bottom {
+                    background: var(--color-light-rear);
+                    
+                    bottom: var(--gap-car-light);
+                }
+                
+                &--left {
+                    left: var(--gap-car-light);
+                }
+            }
             
+            &--red {
+                background: var(--color-car--red);
+            }
+            
+            &--purple {
+                background: var(--color-car--purple);
+            }
+            
+            &--green {
+                background: var(--color-car--green);
+            }
+            
+            &--blue {
+                background: var(--color-car--blue);
+            }
+            
+            &--top {
+                left: calc(50% + var(--offset-car));
+                bottom: 0;
+                
+                transform: translateX(-50%);
+            }
+            
+            &--bottom {
+                left: calc(50% - var(--offset-car));
+                top: 0;
+                
+                transform: translateX(-50%) rotate(180deg);
             }
         }
     }
