@@ -44,99 +44,95 @@ class SimpleTest(unittest.TestCase):
 
     def test_change_text(self):
         title = self.driver.find_element_by_id('title')
-        hello_button =  self.driver.find_element_by_id('hello-button')
+        hello_button = self.driver.find_element_by_id('hello-button')
         before = title.text
         self.assertEqual(before, "...")
-        click = ActionChains(self.driver).click(hello_button)
-        click.perform()
-        time.sleep(2)
+        hello_button.click()
+        time.sleep(.2)
         after = title.text
         self.assertEqual(after, 'Hello, Code-Star!')
 
     def test_change_color(self):
-        color_button =  self.driver.find_element_by_id('color-button')
+        color_button = self.driver.find_element_by_id('color-button')
         item = self.driver.find_element_by_tag_name('body')
-        hover = ActionChains(self.driver).click(color_button)
 
-        time.sleep(2)
+        time.sleep(.2)
         background1 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background1, "rgba(26,26,26,1)")
 
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background2 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background2, "rgba(240,46,8,1)")
 
-
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background3 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background3, "rgba(14,56,161,1)")
 
-
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background4 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background4, "rgba(240,46,8,1)")
 
-
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background5 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background5, "rgba(14,56,161,1)")
 
     def test_change_color_and_change_text(self):
         title = self.driver.find_element_by_id('title')
-        color_button =  self.driver.find_element_by_id('color-button')
-        hello_button =  self.driver.find_element_by_id('hello-button')
-        hover_hello = ActionChains(self.driver).click(hello_button)
-        hover = ActionChains(self.driver).click(color_button)
+        color_button = self.driver.find_element_by_id('color-button')
+        hello_button = self.driver.find_element_by_id('hello-button')
 
         item = self.driver.find_element_by_tag_name('body')
         background1 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background1, "rgba(26,26,26,1)")
 
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background2 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background2, "rgba(240,46,8,1)")
         before = title.text
         self.assertEqual(before, "...")
 
-        hover_hello.perform()
-        time.sleep(2)
+        hello_button.click()
+        time.sleep(.2)
         after = title.text
         self.assertEqual(after, 'Hello, Code-Star!')
-        
+
         background2 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background2, "rgba(240,46,8,1)")
 
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background3 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background3, "rgba(14,56,161,1)")
 
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background4 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background4, "rgba(240,46,8,1)")
 
-        hover.perform()
-        time.sleep(2)
+        color_button.click()
+        time.sleep(.2)
         background5 = str(item.value_of_css_property(
-                'background-color')).replace(' ', '')
+            'background-color')).replace(' ', '')
         self.assertEqual(background5, "rgba(14,56,161,1)")
-                
+
+    def test_load_js(self):
+        result = self.driver.execute_script("return colors")
+        self.assertEqual(result, ['#f02e08', '#0e38a1'])
 
     @classmethod
     def tearDown(cls):
