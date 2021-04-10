@@ -1,15 +1,32 @@
 :root {
-  --color-body: #1fcc4a;
+  --color-red: tomato;
+  --color-yellow: yellow;
+  --color-green: #1fcc4a;
+  --color-blue: #1f92cc;
+  --color-primary: var(--color-green);
   --color-light: #fafafa;
+  --color-gray: #404040;
   --color-dark: #1a1a1a;
-  --color-light--red: tomato;
-  --color-light--yellow: yellow;
-  --color-light--green: var(--color-body);
+  --color-light--red: var(--color-red);
+  --color-light--yellow: var(--color-yellow);
+  --color-light--green: var(--color-green);
+  --color-car--red: var(--color-red);
+  --color-car--yellow: var(--color-yellow);
+  --color-car--green: var(--color-green);
+  --color-car--blue: var(--color-blue);
+  --color-wheel: var(--color-gray);
   --size-street: 250px;
   --size-lane: 10px;
   --size-light: 15px;
+  --size-start-button: 50px;
+  --size-car--long: 40px;
+  --size-car--short: 25px;
+  --size-wheel--long: 12px;
+  --size-wheel--short: 4px;
   --gap-screen: 5px;
+  --gap-start-button: 10px;
   --font-size-counter: 24px;
+  --font-size-start-button: 18px;
 }
 
 * {
@@ -20,7 +37,18 @@
 }
 
 body {
-  background: var(--color-body);
+  background: var(--color-primary);
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+body .container,
+body .cars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 body .container {
   display: grid;
@@ -80,6 +108,9 @@ body .container .street--center .screen .light {
   height: var(--size-light);
   border-radius: 999px;
 }
+body .container .street--center .screen .light.off {
+  opacity: 0.5;
+}
 body .container .street--center .screen .light--red {
   grid-area: red;
   background: var(--color-light--red);
@@ -112,7 +143,7 @@ body .container .street--center .screen--left, body .container .street--center .
 body .container .street--center .screen--top {
   top: 0;
   margin-top: var(--gap-screen);
-  grid-template-areas: "red yellow green" "counter counter counter";
+  grid-template-areas: "green yellow red" "counter counter counter";
 }
 body .container .street--center .screen--left {
   left: 0;
@@ -122,7 +153,7 @@ body .container .street--center .screen--left {
 body .container .street--center .screen--right {
   right: 0;
   margin-right: var(--gap-screen);
-  grid-template-areas: "counter red" "counter yellow" "counter green";
+  grid-template-areas: "counter green" "counter yellow" "counter red";
 }
 body .container .street--center .screen--bottom {
   bottom: 0;
@@ -131,6 +162,60 @@ body .container .street--center .screen--bottom {
 }
 body .container .street--center .screen--bottom .counter {
   margin-bottom: -0.2em;
+}
+body .container .street--center #start-button {
+  background: var(--color-primary);
+  color: var(--color-light);
+  box-sizing: content-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size-start-button);
+  height: var(--size-start-button);
+  padding: var(--gap-start-button);
+  border: none;
+  border-radius: 999px;
+  font-size: var(--font-size-start-button);
+  font-weight: bold;
+  transform: translate(-50%, -50%) scale(1);
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+body .container .street--center #start-button:focus {
+  outline: none;
+}
+body .container .street--center #start-button:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+body .container .street--center #start-button:disabled {
+  display: none;
+}
+body .cars .car {
+  background: var(--color-car--blue);
+  position: relative;
+  top: 50px;
+  left: 50px;
+  width: var(--size-car--short);
+  height: var(--size-car--long);
+}
+body .cars .car .wheel {
+  background: var(--color-wheel);
+  position: absolute;
+  display: block;
+  width: var(--size-wheel--short);
+  height: var(--size-wheel--long);
+}
+body .cars .car .wheel--top {
+  top: 0;
+}
+body .cars .car .wheel--right {
+  right: calc(var(--size-wheel--short) * -1);
+}
+body .cars .car .wheel--bottom {
+  bottom: 0;
+}
+body .cars .car .wheel--left {
+  left: calc(var(--size-wheel--short) * -1);
 }
 
 /*# sourceMappingURL=main.css.map */

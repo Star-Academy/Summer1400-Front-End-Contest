@@ -9,21 +9,42 @@
 }
 
 :root {
-    --color-body: #1fcc4a;
+    --color-red: tomato;
+    --color-yellow: yellow;
+    --color-green: #1fcc4a;
+    --color-blue: #1f92cc;
+    
+    --color-primary: var(--color-green);
     --color-light: #fafafa;
+    --color-gray: #404040;
     --color-dark: #1a1a1a;
     
-    --color-light--red: tomato;
-    --color-light--yellow: yellow;
-    --color-light--green: var(--color-body);
+    --color-light--red: var(--color-red);
+    --color-light--yellow: var(--color-yellow);
+    --color-light--green: var(--color-green);
+    
+    --color-car--red: var(--color-red);
+    --color-car--yellow: var(--color-yellow);
+    --color-car--green: var(--color-green);
+    --color-car--blue: var(--color-blue);
+    
+    --color-wheel: var(--color-gray);
     
     --size-street: 250px;
     --size-lane: 10px;
     --size-light: 15px;
+    --size-start-button: 50px;
+    
+    --size-car--long: 40px;
+    --size-car--short: 25px;
+    --size-wheel--long: 12px;
+    --size-wheel--short: 4px;
     
     --gap-screen: 5px;
+    --gap-start-button: 10px;
     
     --font-size-counter: 24px;
+    --font-size-start-button: 18px;
 }
 
 * {
@@ -36,7 +57,21 @@
 }
 
 body {
-    background: var(--color-body);
+    background: var(--color-primary);
+    
+    position: relative;
+    
+    width: 100vw;
+    height: 100vh;
+    
+    .container,
+    .cars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
     
     .container {
         display: grid;
@@ -120,6 +155,10 @@ body {
                         
                         border-radius: 999px;
                         
+                        &.off {
+                            opacity: 0.5;
+                        }
+                        
                         &--red {
                             grid-area: red;
                             
@@ -168,7 +207,7 @@ body {
                     
                     &--top {
                         @include _screen(top);
-                        grid-template-areas: "red yellow green" "counter counter counter";
+                        grid-template-areas: "green yellow red" "counter counter counter";
                     }
                     
                     &--left {
@@ -178,7 +217,7 @@ body {
                     
                     &--right {
                         @include _screen(right);
-                        grid-template-areas: "counter red" "counter yellow" "counter green";
+                        grid-template-areas: "counter green" "counter yellow" "counter red";
                     }
                     
                     &--bottom {
@@ -190,6 +229,90 @@ body {
                         }
                     }
                 }
+                
+                #start-button {
+                    background: var(--color-primary);
+                    color: var(--color-light);
+                    
+                    box-sizing: content-box;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    
+                    width: var(--size-start-button);
+                    height: var(--size-start-button);
+                    
+                    padding: var(--gap-start-button);
+                    
+                    border: none;
+                    border-radius: 999px;
+                    
+                    font-size: var(--font-size-start-button);
+                    font-weight: bold;
+                    
+                    transform: translate(-50%, -50%) scale(1);
+                    
+                    cursor: pointer;
+                    
+                    transition: all 0.1s ease-in-out;
+                    
+                    &:focus {
+                        outline: none;
+                    }
+                    
+                    &:hover {
+                        transform: translate(-50%, -50%) scale(1.1);
+                    }
+                    
+                    &:disabled {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    
+    .cars {
+        .car {
+            background: var(--color-car--blue);
+            
+            position: relative;
+            
+            top: 50px;
+            left: 50px;
+            
+            width: var(--size-car--short);
+            height: var(--size-car--long);
+            
+            .wheel {
+                background: var(--color-wheel);
+                
+                position: absolute;
+                
+                display: block;
+                
+                width: var(--size-wheel--short);
+                height: var(--size-wheel--long);
+                
+                &--top {
+                    top: 0;
+                }
+                
+                &--right {
+                    right: calc(var(--size-wheel--short) * -1);
+                }
+                
+                &--bottom {
+                    bottom: 0;
+                }
+                
+                &--left {
+                    left: calc(var(--size-wheel--short) * -1);
+                }
+            }
+            
+            .top {
+            
             }
         }
     }
