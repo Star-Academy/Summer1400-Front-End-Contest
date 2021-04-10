@@ -1,0 +1,39 @@
+@font-face {
+  font-family: shabnam-bold;
+  src: url("./shabnam-bold.ttf");
+}
+
+.logo {
+  position: absolute;
+  top: 170px;
+}
+
+.tag {
+  position: absolute;
+  padding-left: 30px;
+  font-family: "shabnam-bold", sans-serif;
+  font-size: 108px;
+  font-weight: 700;
+  letter-spacing: -7px;
+  transform-origin: left;
+}
+
+.tag:nth-child(1) {
+  transform: rotate(-90deg);
+}
+
+.tag:nth-child(2) {
+  transform: rotate(-18deg);
+}
+
+.tag:nth-child(3) {
+  transform: rotate(54deg);
+}
+
+.tag:nth-child(4) {
+  transform: rotate(126deg);
+}
+
+.tag:nth-child(5) {
+  transform: rotate(198deg);
+}
