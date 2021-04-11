@@ -1,68 +1,65 @@
 // write your code here ...
+// CONFIG
 const URL = 'http://localhost:5000/';
 
-const screens = {
-    top: document.querySelector('.screen--top'),
-    right: document.querySelector('.screen--right'),
-    bottom: document.querySelector('.screen--bottom'),
-    left: document.querySelector('.screen--left'),
-};
+const directions = ['top', 'right', 'bottom', 'left'];
+const colors = ['red', 'yellow', 'green'];
 
-const lights = {
-    top: {
-        red: screens.top.getElementsByClassName('light--red')[0],
-        yellow: screens.top.getElementsByClassName('light--yellow')[0],
-        green: screens.top.getElementsByClassName('light--green')[0],
-    },
-    right: {
-        red: screens.right.getElementsByClassName('light--red')[0],
-        yellow: screens.right.getElementsByClassName('light--yellow')[0],
-        green: screens.right.getElementsByClassName('light--green')[0],
-    },
-    bottom: {
-        red: screens.bottom.getElementsByClassName('light--red')[0],
-        yellow: screens.bottom.getElementsByClassName('light--yellow')[0],
-        green: screens.bottom.getElementsByClassName('light--green')[0],
-    },
-    left: {
-        red: screens.left.getElementsByClassName('light--red')[0],
-        yellow: screens.left.getElementsByClassName('light--yellow')[0],
-        green: screens.left.getElementsByClassName('light--green')[0],
-    },
-};
+// ELEMENTS
+const screens = {};
+const counters = {};
+const lights = {};
 
-const simulateLight = (name, timeline) => {
+for (const direction of directions) {
+    screens[direction] = document.querySelector(`.screen--${direction}`);
+    counters[direction] = screens[direction].querySelector('.counter');
+    
+    lights[direction] = {};
+    for (const color of colors)
+        lights[direction][color] = screens[direction].querySelector(`.light--${color}`);
+}
+
+// FUNCTIONS
+const simulateLight = (direction, timeline) => {
     let totalTime = 0;
-    timeline[name].forEach(({_, time}) => totalTime += +time);
+    timeline[direction].forEach(({_, duration}) => totalTime += +duration);
+    
+    let timer;
+    setInterval(() => {
+        if (timer < 0)
+            console.log('less than zero', direction);
+        
+        counters[direction].innerHTML = (timer--).toString();
+    }, 100);
     
     const interval = () => {
         let elapsedTime = 0;
         
-        timeline[name].forEach(({light, time}) => {
+        timeline[direction].forEach(({color, duration}) => {
             setTimeout(() => {
-                lights[name].red.classList.add('off');
-                lights[name].yellow.classList.add('off');
-                lights[name].green.classList.add('off');
+                for (const color of colors)
+                    lights[direction][color].classList.add('off');
                 
-                lights[name][light].classList.remove('off');
+                lights[direction][color].classList.remove('off');
+                switchLight(direction, color);
+                
+                timer = duration;
             }, elapsedTime * 100);
             
-            elapsedTime += time;
+            elapsedTime += duration;
         });
     };
     
     interval();
-    
     setInterval(interval, totalTime * 100);
 };
 
 const startSimulation = (timeline) => {
-    simulateLight('top', timeline);
-    simulateLight('right', timeline);
-    simulateLight('left', timeline);
-    simulateLight('bottom', timeline);
+    for (const direction of directions)
+        simulateLight(direction, timeline);
 };
 
+// MAIN
 const startButton = document.querySelector('#start-button');
 startButton.addEventListener('click', (e) => {
     e.target.disabled = true;

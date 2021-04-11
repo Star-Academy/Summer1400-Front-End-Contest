@@ -1,18 +1,18 @@
 :root {
-  --color-white: #fafafa;
-  --color-white--dark: #cccccc;
+  --color-white: #cccccc;
+  --color-white--dark: #b3b3b3;
   --color-red: #ff6647;
   --color-red--dark: #cc3939;
-  --color-orange: #f3440e;
-  --color-orange--dark: #f02e08;
-  --color-yellow: #ffff00;
+  --color-yellow: #e6e600;
   --color-yellow--dark: #cccc00;
   --color-green: #1fcc4a;
   --color-green--dark: #009900;
-  --color-blue: #1f92cc;
-  --color-blue--dark: #176e99;
-  --color-purple: #5f29cc;
-  --color-purple--dark: #4400cc;
+  --color-blue: #00abff;
+  --color-blue--dark: #006cd9;
+  --color-purple: #8833ff;
+  --color-purple--dark: #6633ff;
+  --color-pink: #b324b3;
+  --color-pink--dark: #990f99;
   --color-primary: var(--color-green);
   --color-light: #fafafa;
   --color-gray: #404040;
@@ -20,10 +20,13 @@
   --color-light--red: var(--color-red);
   --color-light--yellow: var(--color-yellow);
   --color-light--green: var(--color-green);
+  --color-car--white: linear-gradient(to bottom, var(--color-white) 0, var(--color-white) 30%, var(--color-white--dark) 30%, var(--color-white--dark) 70%, var(--color-white) 70%);
   --color-car--red: linear-gradient(to bottom, var(--color-red) 0, var(--color-red) 30%, var(--color-red--dark) 30%, var(--color-red--dark) 70%, var(--color-red) 70%);
+  --color-car--yellow: linear-gradient(to bottom, var(--color-yellow) 0, var(--color-yellow) 30%, var(--color-yellow--dark) 30%, var(--color-yellow--dark) 70%, var(--color-yellow) 70%);
   --color-car--green: linear-gradient(to bottom, var(--color-green) 0, var(--color-green) 30%, var(--color-green--dark) 30%, var(--color-green--dark) 70%, var(--color-green) 70%);
   --color-car--blue: linear-gradient(to bottom, var(--color-blue) 0, var(--color-blue) 30%, var(--color-blue--dark) 30%, var(--color-blue--dark) 70%, var(--color-blue) 70%);
-  --color-car--purple: linear-gradient(to bottom, var(--color-purple--dark) 0, var(--color-purple--dark) 30%, var(--color-purple) 30%, var(--color-purple) 70%, var(--color-purple--dark) 70%);
+  --color-car--purple: linear-gradient(to bottom, var(--color-purple) 0, var(--color-purple) 30%, var(--color-purple--dark) 30%, var(--color-purple--dark) 70%, var(--color-purple) 70%);
+  --color-car--pink: linear-gradient(to bottom, var(--color-pink) 0, var(--color-pink) 30%, var(--color-pink--dark) 30%, var(--color-pink--dark) 70%, var(--color-pink) 70%);
   --color-car--default: var(--color-car--blue);
   --color-wheel: var(--color-gray);
   --color-light-front: var(--color-light);
@@ -265,17 +268,26 @@ body .cars .car .light--bottom {
 body .cars .car .light--left {
   left: var(--gap-car-light);
 }
+body .cars .car--white {
+  background: var(--color-car--white);
+}
 body .cars .car--red {
   background: var(--color-car--red);
 }
-body .cars .car--purple {
-  background: var(--color-car--purple);
+body .cars .car--yellow {
+  background: var(--color-car--yellow);
 }
 body .cars .car--green {
   background: var(--color-car--green);
 }
 body .cars .car--blue {
   background: var(--color-car--blue);
+}
+body .cars .car--purple {
+  background: var(--color-car--purple);
+}
+body .cars .car--pink {
+  background: var(--color-car--pink);
 }
 body .cars .car--top {
   left: calc(50% - var(--offset-car));

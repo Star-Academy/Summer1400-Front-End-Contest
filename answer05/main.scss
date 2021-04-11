@@ -8,25 +8,31 @@
     margin-#{$direction}: var(--gap-screen);
 }
 
+@mixin _car-color($color) {
+    &--#{$color} {
+        background: var(--color-car--#{$color});
+    }
+}
+
 @function _car-color($around, $center) {
     @return linear-gradient(to bottom, $around 0, $around 30%, $center 30%, $center 70%, $around 70%);
 }
 
 :root {
-    --color-white: #fafafa;
-    --color-white--dark: #cccccc;
+    --color-white: #cccccc;
+    --color-white--dark: #b3b3b3;
     --color-red: #ff6647;
     --color-red--dark: #cc3939;
-    --color-orange: #f3440e;
-    --color-orange--dark: #f02e08;
-    --color-yellow: #ffff00;
+    --color-yellow: #e6e600;
     --color-yellow--dark: #cccc00;
     --color-green: #1fcc4a;
     --color-green--dark: #009900;
-    --color-blue: #1f92cc;
-    --color-blue--dark: #176e99;
-    --color-purple: #5f29cc;
-    --color-purple--dark: #4400cc;
+    --color-blue: #00abff;
+    --color-blue--dark: #006cd9;
+    --color-purple: #8833ff;
+    --color-purple--dark: #6633ff;
+    --color-pink: #b324b3;
+    --color-pink--dark: #990f99;
     
     --color-primary: var(--color-green);
     --color-light: #fafafa;
@@ -37,10 +43,13 @@
     --color-light--yellow: var(--color-yellow);
     --color-light--green: var(--color-green);
     
+    --color-car--white: #{_car-color(var(--color-white), var(--color-white--dark))};
     --color-car--red: #{_car-color(var(--color-red), var(--color-red--dark))};
+    --color-car--yellow: #{_car-color(var(--color-yellow), var(--color-yellow--dark))};
     --color-car--green: #{_car-color(var(--color-green), var(--color-green--dark))};
     --color-car--blue: #{_car-color(var(--color-blue), var(--color-blue--dark))};
-    --color-car--purple: #{_car-color(var(--color-purple--dark), var(--color-purple))};
+    --color-car--purple: #{_car-color(var(--color-purple), var(--color-purple--dark))};
+    --color-car--pink: #{_car-color(var(--color-pink), var(--color-pink--dark))};
     --color-car--default: var(--color-car--blue);
     
     --color-wheel: var(--color-gray);
@@ -391,21 +400,13 @@ body {
                 }
             }
             
-            &--red {
-                background: var(--color-car--red);
-            }
-            
-            &--purple {
-                background: var(--color-car--purple);
-            }
-            
-            &--green {
-                background: var(--color-car--green);
-            }
-            
-            &--blue {
-                background: var(--color-car--blue);
-            }
+            @include _car-color(white);
+            @include _car-color(red);
+            @include _car-color(yellow);
+            @include _car-color(green);
+            @include _car-color(blue);
+            @include _car-color(purple);
+            @include _car-color(pink);
             
             &--top {
                 left: calc(50% - var(--offset-car));
