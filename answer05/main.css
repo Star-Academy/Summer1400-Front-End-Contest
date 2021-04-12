@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Samim";
+  src: url("./samim.ttf");
+}
+@font-face {
+  font-family: "Samim";
+  src: url("./samim-bold.ttf");
+  font-weight: bold;
+}
 :root {
   --color-white: #cccccc;
   --color-white--dark: #b3b3b3;
@@ -216,7 +225,6 @@ body .container .street--center #start-button:disabled {
 }
 body .container .empty {
   background: var(--color-primary);
-  position: relative;
 }
 body .cars {
   overflow: hidden;

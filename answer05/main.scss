@@ -1,3 +1,14 @@
+@font-face {
+    font-family: "Samim";
+    src: url("./samim.ttf");
+}
+
+@font-face {
+    font-family: "Samim";
+    src: url("./samim-bold.ttf");
+    font-weight: bold;
+}
+
 @mixin _lane($direction) {
     background-image: linear-gradient(to #{$direction}, var(--color-light) 0%, var(--color-light) 50%, transparent 50%);
 }
@@ -311,24 +322,6 @@ body {
         
         .empty {
             background: var(--color-primary);
-            
-            position: relative;
-            
-            //&--top-left {
-            //    clip-path: polygon(0% 0%, 100% 0%, 100% var(--size-ramp--long), var(--size-ramp--long) 100%, 0% 100%);
-            //}
-            //
-            //&--top-right {
-            //    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, var(--size-ramp--short) 100%, 0% var(--size-ramp--long));
-            //}
-            //
-            //&--bottom-right {
-            //    clip-path: polygon(var(--size-ramp--short) 0%, 100% 0%, 100% 100%, 0% 100%, 0% var(--size-ramp--short));
-            //}
-            //
-            //&--bottom-left {
-            //    clip-path: polygon(0% 0%, var(--size-ramp--long) 0%, 100% var(--size-ramp--short), 100% 100%, 0% 100%);
-            //}
         }
     }
     
@@ -400,13 +393,13 @@ body {
                 }
             }
             
-            @include _car-color(white);
-            @include _car-color(red);
-            @include _car-color(yellow);
-            @include _car-color(green);
-            @include _car-color(blue);
-            @include _car-color(purple);
-            @include _car-color(pink);
+            @include _car-color("white");
+            @include _car-color("red");
+            @include _car-color("yellow");
+            @include _car-color("green");
+            @include _car-color("blue");
+            @include _car-color("purple");
+            @include _car-color("pink");
             
             &--top {
                 left: calc(50% - var(--offset-car));
