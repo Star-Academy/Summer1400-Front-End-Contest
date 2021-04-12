@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time
 
 DEBUG = 'PRODUCTION' not in os.environ
@@ -129,10 +130,6 @@ class SimpleTest(unittest.TestCase):
         background5 = str(item.value_of_css_property(
             'background-color')).replace(' ', '')
         self.assertEqual(background5, "rgba(14,56,161,1)")
-
-    def test_load_js(self):
-        result = self.driver.execute_script("return colors")
-        self.assertEqual(result, ['#f02e08', '#0e38a1'])
 
     @classmethod
     def tearDown(cls):
