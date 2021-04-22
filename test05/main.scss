@@ -1,0 +1,435 @@
+@font-face {
+    font-family: "Samim";
+    src: url("./samim.ttf");
+}
+
+@font-face {
+    font-family: "Samim";
+    src: url("./samim-bold.ttf");
+    font-weight: bold;
+}
+
+@mixin _lane($direction) {
+    background-image: linear-gradient(to #{$direction}, var(--color-light) 0%, var(--color-light) 50%, transparent 50%);
+}
+
+@mixin _screen($direction) {
+    #{$direction}: 0;
+    
+    margin-#{$direction}: var(--gap-screen);
+}
+
+@mixin _car-color($color) {
+    &--#{$color} {
+        background: var(--color-car--#{$color});
+    }
+}
+
+@function _car-color($around, $center) {
+    @return linear-gradient(to bottom, $around 0, $around 30%, $center 30%, $center 70%, $around 70%);
+}
+
+:root {
+    --color-white: #cccccc;
+    --color-white--dark: #b3b3b3;
+    --color-red: #ff6647;
+    --color-red--dark: #cc3939;
+    --color-yellow: #e6e600;
+    --color-yellow--dark: #cccc00;
+    --color-green: #1fcc4a;
+    --color-green--dark: #009900;
+    --color-blue: #00abff;
+    --color-blue--dark: #006cd9;
+    --color-purple: #8833ff;
+    --color-purple--dark: #6633ff;
+    --color-pink: #b324b3;
+    --color-pink--dark: #990f99;
+    
+    --color-primary: var(--color-green);
+    --color-light: #fafafa;
+    --color-gray: #404040;
+    --color-dark: #1a1a1a;
+    
+    --color-light--red: var(--color-red);
+    --color-light--yellow: var(--color-yellow);
+    --color-light--green: var(--color-green);
+    
+    --color-car--white: #{_car-color(var(--color-white), var(--color-white--dark))};
+    --color-car--red: #{_car-color(var(--color-red), var(--color-red--dark))};
+    --color-car--yellow: #{_car-color(var(--color-yellow), var(--color-yellow--dark))};
+    --color-car--green: #{_car-color(var(--color-green), var(--color-green--dark))};
+    --color-car--blue: #{_car-color(var(--color-blue), var(--color-blue--dark))};
+    --color-car--purple: #{_car-color(var(--color-purple), var(--color-purple--dark))};
+    --color-car--pink: #{_car-color(var(--color-pink), var(--color-pink--dark))};
+    --color-car--default: var(--color-car--blue);
+    
+    --color-wheel: var(--color-gray);
+    
+    --color-light-front: var(--color-light);
+    --color-light-rear: var(--color-red--dark);
+    
+    --offset-car: 60px;
+    
+    --size-street: calc(var(--offset-car) * 4);
+    --size-ramp--short: 10%;
+    --size-ramp--long: calc(100% - var(--size-ramp--short));
+    --size-lane: 10px;
+    --size-light: 15px;
+    
+    --size-start-button: 50px;
+    
+    --size-car--long: 40px;
+    --size-car--short: 25px;
+    --size-wheel--long: 12px;
+    --size-wheel--short: 4px;
+    --size-light--long: 6px;
+    --size-light--short: 4px;
+    
+    --gap-screen: 5px;
+    --gap-start-button: 10px;
+    --gap-car-light: 2px;
+    
+    --font-size-counter: 24px;
+    --font-size-start-button: 18px;
+}
+
+* {
+    box-sizing: border-box;
+    
+    margin: 0;
+    padding: 0;
+    
+    font-family: "Samim", sans-serif;
+}
+
+body {
+    background: var(--color-dark);
+    
+    position: relative;
+    
+    width: 100vw;
+    height: 100vh;
+    
+    .container,
+    .cars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .container {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: 1fr auto 1fr;
+        
+        width: 100vw;
+        height: 100vh;
+        
+        .street {
+            background: var(--color-dark);
+            
+            position: relative;
+            overflow: hidden;
+            
+            &::after {
+                content: "";
+                
+                background-size: 50px 50px;
+                
+                position: absolute;
+            }
+            
+            &--horizontal {
+                height: var(--size-street);
+                
+                &::after {
+                    @include _lane(right);
+                    
+                    top: 50%;
+                    left: 0;
+                    right: 0;
+                    
+                    transform: translateY(-50%);
+                    
+                    height: var(--size-lane);
+                }
+                
+                &.reverse {
+                    &::after {
+                        transform: translateY(-50%) scaleX(-1);
+                    }
+                }
+            }
+            
+            &--vertical {
+                width: var(--size-street);
+                
+                &::after {
+                    @include _lane(bottom);
+                    
+                    top: 0;
+                    left: 50%;
+                    bottom: 0;
+                    
+                    width: var(--size-lane);
+                    
+                    transform: translateX(-50%);
+                }
+                
+                &.reverse {
+                    &::after {
+                        transform: translateX(-50%) scaleY(-1);
+                    }
+                }
+            }
+            
+            &--center {
+                position: relative;
+                
+                .screen {
+                    position: absolute;
+                    
+                    display: grid;
+                    gap: var(--gap-screen);
+                    
+                    .light {
+                        display: block;
+                        
+                        width: var(--size-light);
+                        height: var(--size-light);
+                        
+                        border-radius: 999px;
+                        
+                        transition: background-color 0.1s ease-in-out;
+                        
+                        &.off {
+                            opacity: 0.5;
+                        }
+                        
+                        &--red {
+                            grid-area: red;
+                            
+                            background: var(--color-light--red);
+                        }
+                        
+                        &--yellow {
+                            grid-area: yellow;
+                            
+                            background: var(--color-light--yellow);
+                        }
+                        
+                        &--green {
+                            grid-area: green;
+                            
+                            background: var(--color-light--green);
+                        }
+                    }
+                    
+                    .counter {
+                        grid-area: counter;
+                        
+                        color: var(--color-light);
+                        
+                        display: grid;
+                        place-items: center;
+                        
+                        font-size: var(--font-size-counter);
+                        line-height: 1em;
+                        text-align: center;
+                    }
+                    
+                    &--top,
+                    &--bottom {
+                        left: 50%;
+                        
+                        transform: translateX(-50%);
+                    }
+                    
+                    &--left,
+                    &--right {
+                        top: 50%;
+                        
+                        transform: translateY(-50%);
+                    }
+                    
+                    &--top {
+                        @include _screen(top);
+                        grid-template-areas: "green yellow red" "counter counter counter";
+                    }
+                    
+                    &--left {
+                        @include _screen(left);
+                        grid-template-areas: "red counter" "yellow counter" "green counter";
+                    }
+                    
+                    &--right {
+                        @include _screen(right);
+                        grid-template-areas: "counter green" "counter yellow" "counter red";
+                    }
+                    
+                    &--bottom {
+                        @include _screen(bottom);
+                        grid-template-areas: "counter counter counter" "red yellow green";
+                        
+                        .counter {
+                            margin-bottom: -0.2em;
+                        }
+                    }
+                }
+                
+                #start-button {
+                    background: var(--color-primary);
+                    color: var(--color-light);
+                    
+                    box-sizing: content-box;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    
+                    width: var(--size-start-button);
+                    height: var(--size-start-button);
+                    
+                    padding: var(--gap-start-button);
+                    
+                    border: none;
+                    border-radius: 999px;
+                    
+                    font-size: var(--font-size-start-button);
+                    font-weight: bold;
+                    
+                    transform: translate(-50%, -50%) scale(1);
+                    
+                    cursor: pointer;
+                    
+                    transition: all 0.1s ease-in-out;
+                    
+                    &:focus {
+                        outline: none;
+                    }
+                    
+                    &:hover {
+                        transform: translate(-50%, -50%) scale(1.1);
+                    }
+                    
+                    &:disabled {
+                        display: none;
+                    }
+                }
+            }
+        }
+        
+        .empty {
+            background: var(--color-primary);
+        }
+    }
+    
+    .cars {
+        overflow: hidden;
+        
+        pointer-events: none;
+        
+        .car {
+            background: var(--color-car--default);
+            
+            position: absolute;
+            
+            width: var(--size-car--short);
+            height: var(--size-car--long);
+            
+            .wheel,
+            .light {
+                position: absolute;
+                
+                display: block;
+            }
+            
+            .wheel {
+                background: var(--color-wheel);
+                
+                width: var(--size-wheel--short);
+                height: var(--size-wheel--long);
+                
+                &--top {
+                    top: 0;
+                }
+                
+                &--right {
+                    right: calc(var(--size-wheel--short) * -1);
+                }
+                
+                &--bottom {
+                    bottom: 0;
+                }
+                
+                &--left {
+                    left: calc(var(--size-wheel--short) * -1);
+                }
+            }
+            
+            .light {
+                width: var(--size-light--long);
+                height: var(--size-light--short);
+                
+                &--top {
+                    background: var(--color-light-front);
+                    
+                    top: var(--gap-car-light);
+                }
+                
+                &--right {
+                    right: var(--gap-car-light);
+                }
+                
+                &--bottom {
+                    background: var(--color-light-rear);
+                    
+                    bottom: var(--gap-car-light);
+                }
+                
+                &--left {
+                    left: var(--gap-car-light);
+                }
+            }
+            
+            @include _car-color("white");
+            @include _car-color("red");
+            @include _car-color("yellow");
+            @include _car-color("green");
+            @include _car-color("blue");
+            @include _car-color("purple");
+            @include _car-color("pink");
+            
+            &--top {
+                left: calc(50% - var(--offset-car));
+                top: 0;
+                
+                transform: translate(-50%, -100%) rotate(180deg);
+            }
+            
+            &--right {
+                top: calc(50% - var(--offset-car));
+                right: 0;
+                
+                transform-origin: left;
+                transform: translate(200%, -25%) rotate(270deg);
+            }
+            
+            &--bottom {
+                left: calc(50% + var(--offset-car));
+                bottom: 0;
+                
+                transform: translate(-50%, 100%);
+            }
+            
+            &--left {
+                top: calc(50% + var(--offset-car));
+                left: 0;
+                
+                transform-origin: right;
+                transform: translate(-200%, -25%) rotate(90deg);
+            }
+        }
+    }
+}

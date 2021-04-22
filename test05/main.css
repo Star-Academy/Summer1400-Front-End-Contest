@@ -1,0 +1,323 @@
+@font-face {
+  font-family: "Samim";
+  src: url("./samim.ttf");
+}
+@font-face {
+  font-family: "Samim";
+  src: url("./samim-bold.ttf");
+  font-weight: bold;
+}
+:root {
+  --color-white: #cccccc;
+  --color-white--dark: #b3b3b3;
+  --color-red: #ff6647;
+  --color-red--dark: #cc3939;
+  --color-yellow: #e6e600;
+  --color-yellow--dark: #cccc00;
+  --color-green: #1fcc4a;
+  --color-green--dark: #009900;
+  --color-blue: #00abff;
+  --color-blue--dark: #006cd9;
+  --color-purple: #8833ff;
+  --color-purple--dark: #6633ff;
+  --color-pink: #b324b3;
+  --color-pink--dark: #990f99;
+  --color-primary: var(--color-green);
+  --color-light: #fafafa;
+  --color-gray: #404040;
+  --color-dark: #1a1a1a;
+  --color-light--red: var(--color-red);
+  --color-light--yellow: var(--color-yellow);
+  --color-light--green: var(--color-green);
+  --color-car--white: linear-gradient(to bottom, var(--color-white) 0, var(--color-white) 30%, var(--color-white--dark) 30%, var(--color-white--dark) 70%, var(--color-white) 70%);
+  --color-car--red: linear-gradient(to bottom, var(--color-red) 0, var(--color-red) 30%, var(--color-red--dark) 30%, var(--color-red--dark) 70%, var(--color-red) 70%);
+  --color-car--yellow: linear-gradient(to bottom, var(--color-yellow) 0, var(--color-yellow) 30%, var(--color-yellow--dark) 30%, var(--color-yellow--dark) 70%, var(--color-yellow) 70%);
+  --color-car--green: linear-gradient(to bottom, var(--color-green) 0, var(--color-green) 30%, var(--color-green--dark) 30%, var(--color-green--dark) 70%, var(--color-green) 70%);
+  --color-car--blue: linear-gradient(to bottom, var(--color-blue) 0, var(--color-blue) 30%, var(--color-blue--dark) 30%, var(--color-blue--dark) 70%, var(--color-blue) 70%);
+  --color-car--purple: linear-gradient(to bottom, var(--color-purple) 0, var(--color-purple) 30%, var(--color-purple--dark) 30%, var(--color-purple--dark) 70%, var(--color-purple) 70%);
+  --color-car--pink: linear-gradient(to bottom, var(--color-pink) 0, var(--color-pink) 30%, var(--color-pink--dark) 30%, var(--color-pink--dark) 70%, var(--color-pink) 70%);
+  --color-car--default: var(--color-car--blue);
+  --color-wheel: var(--color-gray);
+  --color-light-front: var(--color-light);
+  --color-light-rear: var(--color-red--dark);
+  --offset-car: 60px;
+  --size-street: calc(var(--offset-car) * 4);
+  --size-ramp--short: 10%;
+  --size-ramp--long: calc(100% - var(--size-ramp--short));
+  --size-lane: 10px;
+  --size-light: 15px;
+  --size-start-button: 50px;
+  --size-car--long: 40px;
+  --size-car--short: 25px;
+  --size-wheel--long: 12px;
+  --size-wheel--short: 4px;
+  --size-light--long: 6px;
+  --size-light--short: 4px;
+  --gap-screen: 5px;
+  --gap-start-button: 10px;
+  --gap-car-light: 2px;
+  --font-size-counter: 24px;
+  --font-size-start-button: 18px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Samim", sans-serif;
+}
+
+body {
+  background: var(--color-dark);
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+body .container,
+body .cars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+body .container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  width: 100vw;
+  height: 100vh;
+}
+body .container .street {
+  background: var(--color-dark);
+  position: relative;
+  overflow: hidden;
+}
+body .container .street::after {
+  content: "";
+  background-size: 50px 50px;
+  position: absolute;
+}
+body .container .street--horizontal {
+  height: var(--size-street);
+}
+body .container .street--horizontal::after {
+  background-image: linear-gradient(to right, var(--color-light) 0%, var(--color-light) 50%, transparent 50%);
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  height: var(--size-lane);
+}
+body .container .street--horizontal.reverse::after {
+  transform: translateY(-50%) scaleX(-1);
+}
+body .container .street--vertical {
+  width: var(--size-street);
+}
+body .container .street--vertical::after {
+  background-image: linear-gradient(to bottom, var(--color-light) 0%, var(--color-light) 50%, transparent 50%);
+  top: 0;
+  left: 50%;
+  bottom: 0;
+  width: var(--size-lane);
+  transform: translateX(-50%);
+}
+body .container .street--vertical.reverse::after {
+  transform: translateX(-50%) scaleY(-1);
+}
+body .container .street--center {
+  position: relative;
+}
+body .container .street--center .screen {
+  position: absolute;
+  display: grid;
+  gap: var(--gap-screen);
+}
+body .container .street--center .screen .light {
+  display: block;
+  width: var(--size-light);
+  height: var(--size-light);
+  border-radius: 999px;
+  transition: background-color 0.1s ease-in-out;
+}
+body .container .street--center .screen .light.off {
+  opacity: 0.5;
+}
+body .container .street--center .screen .light--red {
+  grid-area: red;
+  background: var(--color-light--red);
+}
+body .container .street--center .screen .light--yellow {
+  grid-area: yellow;
+  background: var(--color-light--yellow);
+}
+body .container .street--center .screen .light--green {
+  grid-area: green;
+  background: var(--color-light--green);
+}
+body .container .street--center .screen .counter {
+  grid-area: counter;
+  color: var(--color-light);
+  display: grid;
+  place-items: center;
+  font-size: var(--font-size-counter);
+  line-height: 1em;
+  text-align: center;
+}
+body .container .street--center .screen--top, body .container .street--center .screen--bottom {
+  left: 50%;
+  transform: translateX(-50%);
+}
+body .container .street--center .screen--left, body .container .street--center .screen--right {
+  top: 50%;
+  transform: translateY(-50%);
+}
+body .container .street--center .screen--top {
+  top: 0;
+  margin-top: var(--gap-screen);
+  grid-template-areas: "green yellow red" "counter counter counter";
+}
+body .container .street--center .screen--left {
+  left: 0;
+  margin-left: var(--gap-screen);
+  grid-template-areas: "red counter" "yellow counter" "green counter";
+}
+body .container .street--center .screen--right {
+  right: 0;
+  margin-right: var(--gap-screen);
+  grid-template-areas: "counter green" "counter yellow" "counter red";
+}
+body .container .street--center .screen--bottom {
+  bottom: 0;
+  margin-bottom: var(--gap-screen);
+  grid-template-areas: "counter counter counter" "red yellow green";
+}
+body .container .street--center .screen--bottom .counter {
+  margin-bottom: -0.2em;
+}
+body .container .street--center #start-button {
+  background: var(--color-primary);
+  color: var(--color-light);
+  box-sizing: content-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size-start-button);
+  height: var(--size-start-button);
+  padding: var(--gap-start-button);
+  border: none;
+  border-radius: 999px;
+  font-size: var(--font-size-start-button);
+  font-weight: bold;
+  transform: translate(-50%, -50%) scale(1);
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+body .container .street--center #start-button:focus {
+  outline: none;
+}
+body .container .street--center #start-button:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+body .container .street--center #start-button:disabled {
+  display: none;
+}
+body .container .empty {
+  background: var(--color-primary);
+}
+body .cars {
+  overflow: hidden;
+  pointer-events: none;
+}
+body .cars .car {
+  background: var(--color-car--default);
+  position: absolute;
+  width: var(--size-car--short);
+  height: var(--size-car--long);
+}
+body .cars .car .wheel,
+body .cars .car .light {
+  position: absolute;
+  display: block;
+}
+body .cars .car .wheel {
+  background: var(--color-wheel);
+  width: var(--size-wheel--short);
+  height: var(--size-wheel--long);
+}
+body .cars .car .wheel--top {
+  top: 0;
+}
+body .cars .car .wheel--right {
+  right: calc(var(--size-wheel--short) * -1);
+}
+body .cars .car .wheel--bottom {
+  bottom: 0;
+}
+body .cars .car .wheel--left {
+  left: calc(var(--size-wheel--short) * -1);
+}
+body .cars .car .light {
+  width: var(--size-light--long);
+  height: var(--size-light--short);
+}
+body .cars .car .light--top {
+  background: var(--color-light-front);
+  top: var(--gap-car-light);
+}
+body .cars .car .light--right {
+  right: var(--gap-car-light);
+}
+body .cars .car .light--bottom {
+  background: var(--color-light-rear);
+  bottom: var(--gap-car-light);
+}
+body .cars .car .light--left {
+  left: var(--gap-car-light);
+}
+body .cars .car--white {
+  background: var(--color-car--white);
+}
+body .cars .car--red {
+  background: var(--color-car--red);
+}
+body .cars .car--yellow {
+  background: var(--color-car--yellow);
+}
+body .cars .car--green {
+  background: var(--color-car--green);
+}
+body .cars .car--blue {
+  background: var(--color-car--blue);
+}
+body .cars .car--purple {
+  background: var(--color-car--purple);
+}
+body .cars .car--pink {
+  background: var(--color-car--pink);
+}
+body .cars .car--top {
+  left: calc(50% - var(--offset-car));
+  top: 0;
+  transform: translate(-50%, -100%) rotate(180deg);
+}
+body .cars .car--right {
+  top: calc(50% - var(--offset-car));
+  right: 0;
+  transform-origin: left;
+  transform: translate(200%, -25%) rotate(270deg);
+}
+body .cars .car--bottom {
+  left: calc(50% + var(--offset-car));
+  bottom: 0;
+  transform: translate(-50%, 100%);
+}
+body .cars .car--left {
+  top: calc(50% + var(--offset-car));
+  left: 0;
+  transform-origin: right;
+  transform: translate(-200%, -25%) rotate(90deg);
+}
+
+/*# sourceMappingURL=main.css.map */
