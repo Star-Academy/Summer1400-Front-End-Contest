@@ -137,16 +137,6 @@ class SimpleTest(unittest.TestCase):
             text_decoration = str(item.value_of_css_property(
                 'text-decoration')).replace(' ', '')
             self.assertIn(text_decoration, result)
-        
-    def test_product_button_cursor(self):
-        buttons = self.driver.find_elements_by_tag_name('a')
-        result = ["pointer"]
-        for item in buttons:
-            hover = ActionChains(self.driver).move_to_element(item)
-            hover.perform()
-            text_decoration = str(item.value_of_css_property(
-                'cursor')).replace(' ', '')
-            self.assertIn(text_decoration, result)
 
     def test_font(self):
         buttons = self.driver.find_elements_by_tag_name('a')
