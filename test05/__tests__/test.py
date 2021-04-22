@@ -24,8 +24,6 @@ PORT = '5503'
 
 
 class SimpleTest(unittest.TestCase):
-    nodeServer = ''
-
     @classmethod
     def setUp(cls):
         print('DEBUG = {}'.format(DEBUG), file=sys.stderr)
@@ -41,14 +39,10 @@ class SimpleTest(unittest.TestCase):
         else:
             cls.driver = webdriver.Remote(
                 command_executor='http://localhost:4444/wd/hub',
-                desired_capabilities=desired_capabilities
+                desired_capabilities=desired_capabilities,
             )
 
-        cls.driver.implicitly_wait(10)
         cls.driver.get('http://127.0.0.1:' + PORT + '/index.html')
-
-        cls.nodeServer = subprocess.Popen(['npm', 'run', 'server'], cwd=SRC_PATH, stderr=subprocess.DEVNULL,
-                                          shell=True)
 
     def test_button_disabled(self):
         start_button = self.driver.find_element_by_id('start-button')
@@ -58,77 +52,57 @@ class SimpleTest(unittest.TestCase):
         after = start_button.get_attribute('disabled')
         self.assertTrue(after)
 
-    def test_top_green(self):
+    def test_lights(self):
         start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--top>.light--green')
-        check_green(self, light, start_button, 0, 1, 1, 6)
+        start_button.click()
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".off")))
+        delay(.4)
+        lights = get_lights(self)
+        self.assertNotIn('off', lights['top-green'].get_attribute("class"))
+        self.assertIn('off', lights['right-green'].get_attribute("class"))
+        self.assertIn('off', lights['bottom-green'].get_attribute("class"))
+        self.assertIn('off', lights['left-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--top>.light--green.off")))
+        self.assertNotIn('off', lights['top-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['right-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['bottom-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['left-yellow'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--top>.light--yellow.off")))
+        self.assertNotIn('off', lights['top-red'].get_attribute("class"))
+        self.assertIn('off', lights['right-red'].get_attribute("class"))
+        self.assertNotIn('off', lights['bottom-red'].get_attribute("class"))
+        self.assertNotIn('off', lights['left-red'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--right>.light--green.off")))
+        self.assertNotIn('off', lights['right-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['right-red'].get_attribute("class"))
+        self.assertIn('off', lights['right-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--right>.light--yellow.off")))
+        self.assertNotIn('off', lights['right-red'].get_attribute("class"))
+        self.assertIn('off', lights['right-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['right-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--bottom>.light--green.off")))
+        self.assertIn('off', lights['bottom-red'].get_attribute("class"))
+        self.assertNotIn('off', lights['bottom-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['bottom-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--bottom>.light--yellow.off")))
+        self.assertNotIn('off', lights['bottom-red'].get_attribute("class"))
+        self.assertIn('off', lights['bottom-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['bottom-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--left>.light--green.off")))
+        self.assertIn('off', lights['left-red'].get_attribute("class"))
+        self.assertNotIn('off', lights['left-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['left-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--left>.light--yellow.off")))
+        self.assertNotIn('off', lights['left-red'].get_attribute("class"))
+        self.assertIn('off', lights['left-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['left-green'].get_attribute("class"))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".screen--top>.light--green.off")))
+        self.assertIn('off', lights['top-red'].get_attribute("class"))
+        self.assertNotIn('off', lights['top-yellow'].get_attribute("class"))
+        self.assertIn('off', lights['top-green'].get_attribute("class"))
 
-    def test_top_yellow(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--top>.light--yellow')
-        check_yellow(self, light, start_button, 0, 1, 1, 6)
 
-    def test_top_red(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--top>.light--red')
-        check_red(self, light, start_button, 0, 1, 1, 6)
-
-    def test_right_green(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--right>.light--green')
-        check_green(self, light, start_button, 2, 1, 1, 4)
-
-    def test_right_yellow(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--right>.light--yellow')
-        check_yellow(self, light, start_button, 2, 1, 1, 4)
-
-    def test_right_red(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--right>.light--red')
-        check_red(self, light, start_button, 2, 1, 1, 4)
-
-    def test_bottom_green(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--bottom>.light--green')
-        check_green(self, light, start_button, 4, 1, 1, 2)
-
-    def test_bottom_yellow(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--bottom>.light--yellow')
-        check_yellow(self, light, start_button, 4, 1, 1, 2)
-
-    def test_bottom_red(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--bottom>.light--red')
-        check_red(self, light, start_button, 4, 1, 1, 2)
-
-    def test_left_green(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--left>.light--green')
-        check_green(self, light, start_button, 6, 1, 1, 0)
-
-    def test_left_yellow(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--left>.light--yellow')
-        check_yellow(self, light, start_button, 6, 1, 1, 0)
-
-    def test_left_red(self):
-        start_button = self.driver.find_element_by_id('start-button')
-        light = self.driver.find_element_by_css_selector(
-            '.screen--left>.light--red')
-        check_red(self, light, start_button, 6, 1, 1, 0)
 
     @classmethod
     def tearDown(cls):
@@ -145,78 +119,27 @@ class SimpleTest(unittest.TestCase):
                 print(pprint.pformat(log_item), '-----',
                       sep='\n', file=sys.stderr)
         cls.server.kill()
-        os.kill(os.getpgid(cls.nodeServer.pid), signal.SIGTERM)
         cls.driver.close()
 
+def get_lights(test: SimpleTest) -> dict:
+    return {
+        'top-red': test.driver.find_element_by_css_selector('.screen--top>.light--red'),
+        'top-yellow': test.driver.find_element_by_css_selector('.screen--top>.light--yellow'),
+        'top-green': test.driver.find_element_by_css_selector('.screen--top>.light--green'),
+        'right-red': test.driver.find_element_by_css_selector('.screen--right>.light--red'),
+        'right-yellow': test.driver.find_element_by_css_selector('.screen--right>.light--yellow'),
+        'right-green': test.driver.find_element_by_css_selector('.screen--right>.light--green'),
+        'bottom-red': test.driver.find_element_by_css_selector('.screen--bottom>.light--red'),
+        'bottom-yellow': test.driver.find_element_by_css_selector('.screen--bottom>.light--yellow'),
+        'bottom-green': test.driver.find_element_by_css_selector('.screen--bottom>.light--green'),
+        'left-red': test.driver.find_element_by_css_selector('.screen--left>.light--red'),
+        'left-yellow': test.driver.find_element_by_css_selector('.screen--left>.light--yellow'),
+        'left-green': test.driver.find_element_by_css_selector('.screen--left>.light--green')
+    }
 
-def check_green(test: SimpleTest, light, start_button, red1: int, green: int, yellow: int, red2):
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    start_button.click()
-    time.sleep(2.5)
-    time.sleep(red1)
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    time.sleep(green)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(yellow)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(red2 / 2.0)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(red1 + red2 / 2.0)
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-
-def check_yellow(test: SimpleTest, light, start_button, red1: int, green: int, yellow: int, red2):
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    start_button.click()
-    time.sleep(2.5)
-    time.sleep(red1)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(green)
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    time.sleep(yellow)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(red2 / 2.0)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(red2 / 2.0)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(red1)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(green)
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-
-def check_red(test: SimpleTest, light, start_button, red1: int, green: int, yellow: int, red2):
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    start_button.click()
-    time.sleep(2.5)
-    time.sleep(red1)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(green)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
-    time.sleep(yellow)
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    time.sleep(red2 / 2.0)
-    classes = light.get_attribute("class")
-    test.assertNotIn('off', classes)
-    time.sleep(red1 + red2 / 2.0)
-    classes = light.get_attribute("class")
-    test.assertIn('off', classes)
+def delay(secs):
+    time.sleep(secs)
+    sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main()

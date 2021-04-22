@@ -1,6 +1,6 @@
 // write your code here ...
 // CONFIG
-const URL = 'http://localhost:5000/';
+const URL = 'data.json';
 
 const directions = ['top', 'right', 'bottom', 'left'];
 const colors = ['red', 'yellow', 'green'];

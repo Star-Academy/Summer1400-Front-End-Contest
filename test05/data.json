@@ -7,65 +7,65 @@
             },
             {
                 "color": "green",
-                "duration": 20
+                "duration": 1
             },
             {
                 "color": "yellow",
-                "duration": 5
+                "duration": 1
             },
             {
                 "color": "red",
-                "duration": 75
+                "duration": 6
             }
         ],
         "right": [
             {
                 "color": "red",
-                "duration": 25
+                "duration": 2
             },
             {
                 "color": "green",
-                "duration": 20
+                "duration": 1
             },
             {
                 "color": "yellow",
-                "duration": 5
+                "duration": 1
             },
             {
                 "color": "red",
-                "duration": 50
+                "duration": 4
             }
         ],
         "bottom": [
             {
                 "color": "red",
-                "duration": 50
+                "duration": 4
             },
             {
                 "color": "green",
-                "duration": 20
+                "duration": 1
             },
             {
                 "color": "yellow",
-                "duration": 5
+                "duration": 1
             },
             {
                 "color": "red",
-                "duration": 25
+                "duration": 2
             }
         ],
         "left": [
             {
                 "color": "red",
-                "duration": 75
+                "duration": 6
             },
             {
                 "color": "green",
-                "duration": 20
+                "duration": 1
             },
             {
                 "color": "yellow",
-                "duration": 5
+                "duration": 1
             },
             {
                 "color": "red",
