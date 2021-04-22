@@ -5,5 +5,5 @@ const colors = [
 
 const helloMessage =  'Hello, Code-Star!';
 
-// Write your code down here ...
+/* write your code here ... */
 
