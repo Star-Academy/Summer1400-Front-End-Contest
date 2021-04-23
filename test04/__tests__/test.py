@@ -49,7 +49,7 @@ class SimpleTest(unittest.TestCase):
         before = title.text
         self.assertEqual(before, "...")
         hello_button.click()
-        time.sleep(.2)
+        delay(1)
         after = title.text
         self.assertEqual(after, 'Hello, Code-Star!')
 
@@ -57,76 +57,31 @@ class SimpleTest(unittest.TestCase):
         color_button = self.driver.find_element_by_id('color-button')
         item = self.driver.find_element_by_tag_name('body')
 
-        time.sleep(.2)
+        delay(1)
         background1 = str(item.value_of_css_property(
             'background-color')).replace(' ', '')
         self.assertEqual(background1, "rgba(26,26,26,1)")
 
         color_button.click()
-        time.sleep(.2)
+        delay(1)
         background2 = str(item.value_of_css_property(
             'background-color')).replace(' ', '')
         self.assertEqual(background2, "rgba(240,46,8,1)")
 
         color_button.click()
-        time.sleep(.2)
+        delay(1)
         background3 = str(item.value_of_css_property(
             'background-color')).replace(' ', '')
         self.assertEqual(background3, "rgba(14,56,161,1)")
 
         color_button.click()
-        time.sleep(.2)
+        delay(1)
         background4 = str(item.value_of_css_property(
             'background-color')).replace(' ', '')
         self.assertEqual(background4, "rgba(240,46,8,1)")
 
         color_button.click()
-        time.sleep(.2)
-        background5 = str(item.value_of_css_property(
-            'background-color')).replace(' ', '')
-        self.assertEqual(background5, "rgba(14,56,161,1)")
-
-    def test_change_color_and_change_text(self):
-        title = self.driver.find_element_by_id('title')
-        color_button = self.driver.find_element_by_id('color-button')
-        hello_button = self.driver.find_element_by_id('hello-button')
-
-        item = self.driver.find_element_by_tag_name('body')
-        background1 = str(item.value_of_css_property(
-            'background-color')).replace(' ', '')
-        self.assertEqual(background1, "rgba(26,26,26,1)")
-
-        color_button.click()
-        time.sleep(.2)
-        background2 = str(item.value_of_css_property(
-            'background-color')).replace(' ', '')
-        self.assertEqual(background2, "rgba(240,46,8,1)")
-        before = title.text
-        self.assertEqual(before, "...")
-
-        hello_button.click()
-        time.sleep(.2)
-        after = title.text
-        self.assertEqual(after, 'Hello, Code-Star!')
-
-        background2 = str(item.value_of_css_property(
-            'background-color')).replace(' ', '')
-        self.assertEqual(background2, "rgba(240,46,8,1)")
-
-        color_button.click()
-        time.sleep(.2)
-        background3 = str(item.value_of_css_property(
-            'background-color')).replace(' ', '')
-        self.assertEqual(background3, "rgba(14,56,161,1)")
-
-        color_button.click()
-        time.sleep(.2)
-        background4 = str(item.value_of_css_property(
-            'background-color')).replace(' ', '')
-        self.assertEqual(background4, "rgba(240,46,8,1)")
-
-        color_button.click()
-        time.sleep(.2)
+        delay(1)
         background5 = str(item.value_of_css_property(
             'background-color')).replace(' ', '')
         self.assertEqual(background5, "rgba(14,56,161,1)")
@@ -148,6 +103,9 @@ class SimpleTest(unittest.TestCase):
                 cls.server.kill()
                 cls.driver.close()
 
+def delay(secs):
+    time.sleep(secs)
+    sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main()

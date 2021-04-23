@@ -5,6 +5,7 @@ import subprocess
 import sys
 import unittest
 from unittest.util import three_way_cmp
+import math
 
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -16,7 +17,7 @@ import time
 DEBUG = 'PRODUCTION' not in os.environ
 
 SRC_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PORT = '9988'
+PORT = '5501'
 
 
 class SimpleTest(unittest.TestCase):
@@ -31,7 +32,7 @@ class SimpleTest(unittest.TestCase):
 
         if DEBUG:
             cls.driver = webdriver.Chrome(
-                executable_path="/usr/lib/chromium/chromedriver", desired_capabilities=desired_capabilities)
+                executable_path="D:\ChromeDriver\chromedriver.exe", desired_capabilities=desired_capabilities)
         else:
             cls.driver = webdriver.Remote(
                 command_executor='http://localhost:4444/wd/hub',
@@ -44,19 +45,22 @@ class SimpleTest(unittest.TestCase):
     def test_center(self):
         container = self.driver.find_element_by_tag_name('body')
         box = self.driver.find_element_by_id('logo')
-        self.assertEqual(
-            box.location['x'], container.rect['width'] / 2 - box.rect['width'] / 2)
-        self.assertEqual(
-            box.location['y'], container.rect['height'] / 2 - box.rect['height'] / 2)
+        self.assertGreater(10,
+                           math.fabs(box.location['x'] - (self.driver.get_window_rect()['width'] - box.rect['width']) / 2))
+        self.assertGreater(70,
+                           math.fabs(box.location['y']-(self.driver.get_window_rect()['height'] - box.rect['height'])/2))
 
     def test_color(self):
         container = self.driver.find_element_by_tag_name('body')
         background = str(container.value_of_css_property(
             'background-image')).replace(' ', '')
-        result = ["linear-gradient(tobottomright,rgb(243,68,14),rgb(240,46,8))",
-                  "linear-gradient(torightbottom,rgb(243,68,14),rgb(240,46,8))",
-                  "linear-gradient(-45deg,rgb(243,68,14),rgb(240,46,8))",
-                  "linear-gradient(315deg,rgb(243,68,14),rgb(240,46,8))"]
+        result = [
+            "-webkit-gradient(linear,0%0%,100%100%,from(rgb(243,68,14)),to(rgb(240,46,8)))",
+            "-webkit-gradient(linear,0%0%,0%100%,from(rgb(243,68,14)),to(rgb(240,46,8)))",
+            "linear-gradient(tobottomright,rgb(243,68,14),rgb(240,46,8))",
+            "linear-gradient(torightbottom,rgb(243,68,14),rgb(240,46,8))",
+            "linear-gradient(-45deg,rgb(243,68,14),rgb(240,46,8))",
+            "linear-gradient(315deg,rgb(243,68,14),rgb(240,46,8))"]
         self.assertIn(background, result)
 
     def test_width(self):
@@ -67,7 +71,7 @@ class SimpleTest(unittest.TestCase):
 
         self.assertIn(background, result)
 
-    @classmethod
+    @ classmethod
     def tearDownClass(cls):
         console_logs = []
         for log_item in cls.driver.get_log('browser'):

@@ -74,7 +74,7 @@ const startSimulation = (timeline) => {
 // MAIN
 const startButton = document.querySelector('#start-button');
 startButton.addEventListener('click', (e) => {
-    e.target.disabled = true;
+    // e.target.disabled = true;
     
     fetch(URL)
         .then(res => res.json())

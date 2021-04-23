@@ -1,25 +1,25 @@
 {
+	"version": 2,
 	"number_of_tests": 2,
 	"can_submit_single_file": true,
 	"solution_signature": "main.js",
 	"single_file_path": "main.js",
 	"packages": [
 		{
-		  "name": "test_button_disabled",
-		  "score": 30,
-		  "tests": [
-			"test_button_disabled"
-		  ],
-		  "aggregator": "sum"
+			"name": "test_button_disabled",
+			"score": 10,
+			"tests": [
+				"test_button_disabled"
+			],
+			"aggregator": "sum"
 		},
 		{
-		  "name": "test_lights",
-		  "score": 270,
-		  "tests": [
-			"test_lights"
-		  ],
-		  "aggregator": "sum"
+			"name": "test_lights",
+			"score": 90,
+			"tests": [
+				"test_lights"
+			],
+			"aggregator": "sum"
 		}
-	  ]
-	
+	]
 }
